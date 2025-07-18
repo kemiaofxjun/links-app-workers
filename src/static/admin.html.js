@@ -158,9 +158,11 @@ export default `<!DOCTYPE html>
         }
         
         .btn-small {
-            padding: 4px 8px;
             padding: 10px 20px;
-            font-size: 1rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-align: center;
         }
         
         .btn-approve {
@@ -176,6 +178,9 @@ export default `<!DOCTYPE html>
         .btn-delete {
             background: #6b7280;
             color: white;
+            &:hover {
+                background: #b91c1c;
+            }
         }
         
         @media (max-width: 768px) {

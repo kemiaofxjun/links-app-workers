@@ -174,7 +174,7 @@ body {
 }
 
 .btn-secondary:hover {
-  background-color: #4b5563;
+  background-color: #b91c1c;
 }
 
 .btn:disabled {

@@ -1,0 +1,5 @@
+{
+  "name": "links-app-workers",
+  "main": "src/index.js",
+  "compatibility_date": "2025-07-18"
+}

@@ -637,14 +637,6 @@ export default `<!DOCTYPE html>
                     '</div>';
                 }).join('');
                 this.renderPagination(totalPages);
-                // 事件绑定
-                tbody.querySelectorAll('.action-buttons button').forEach(btn => {
-                    btn.onclick = () => {
-                        const id = btn.getAttribute('data-id');
-                        const action = btn.getAttribute('data-action');
-                        this.manageLink(id, action);
-                    };
-                });
             }
             renderPagination(totalPages) {
                 const tbody = document.getElementById('links-table-body');

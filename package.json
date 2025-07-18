@@ -1,0 +1,27 @@
+{
+  "name": "links-app-workers",
+  "version": "1.0.0",
+  "description": "友链申请系统 - Cloudflare Workers 版本",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "build": "wrangler deploy --dry-run",
+    "tail": "wrangler tail"
+  },
+  "keywords": [
+    "cloudflare-workers",
+    "friend-links",
+    "github-oauth",
+    "kv-storage"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "wrangler": "^3.0.0"
+  },
+  "dependencies": {
+    "itty-router": "^4.0.0",
+    "jose": "^5.0.0"
+  }
+}

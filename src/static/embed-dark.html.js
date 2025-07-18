@@ -114,9 +114,9 @@ export default `<!DOCTYPE html>
                         </div>
 
                         <div class="form-group">
-                            <label for="avatar">头像链接</label>
-                            <input type="url" id="avatar" name="avatar" 
-                                   placeholder="https://example.com/avatar.png (可选)">
+                            <label for="avatar">网站图标 *</label>
+                            <input type="url" id="avatar" name="avatar" required 
+                                   placeholder="https://example.com/avatar.png">
                         </div>
 
                         <div class="form-group">

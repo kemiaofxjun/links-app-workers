@@ -23,7 +23,7 @@ function validateLinkData(data) {
     try {
       new URL(data.avatar);
     } catch {
-      errors.push('头像链接格式不正确');
+      errors.push('网站图标格式不正确');
     }
   }
 

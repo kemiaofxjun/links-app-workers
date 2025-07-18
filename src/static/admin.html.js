@@ -332,6 +332,15 @@ export default `<!DOCTYPE html>
                 width: 100%;
             }
         }
+        .link-row a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .link-row a:hover {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
@@ -426,9 +435,9 @@ export default `<!DOCTYPE html>
                     </div>
                     
                     <div class="form-group">
-                        <label for="modal-avatar">头像链接</label>
-                        <input type="url" id="modal-avatar" name="avatar" 
-                               placeholder="https://example.com/avatar.png (可选)">
+                        <label for="modal-avatar">网站图标 *</label>
+                        <input type="url" id="modal-avatar" name="avatar" required
+                               placeholder="https://example.com/avatar.png">
                     </div>
                     
                     <div class="form-group">
@@ -453,6 +462,8 @@ export default `<!DOCTYPE html>
                 this.token = null;
                 this.user = null;
                 this.links = [];
+                this.currentPage = 1;
+                this.pageSize = 10;
                 this.init();
             }
 
@@ -585,46 +596,69 @@ export default `<!DOCTYPE html>
 
             filterLinks() {
                 const filter = document.getElementById('status-filter').value;
+                this.currentPage = 1;
                 this.renderLinks(filter);
             }
 
             renderLinks(statusFilter = 'all') {
                 const tbody = document.getElementById('links-table-body');
-                const filteredLinks = statusFilter === 'all' 
-                    ? this.links 
-                    : this.links.filter(link => link.status === statusFilter);
-
-                if (filteredLinks.length === 0) {
+                const filteredLinks = statusFilter === 'all'
+                    ? this.links
+                    : this.links.filter(function(link) { return link.status === statusFilter; });
+                const totalPages = Math.ceil(filteredLinks.length / this.pageSize);
+                const startIdx = (this.currentPage - 1) * this.pageSize;
+                const pageLinks = filteredLinks.slice(startIdx, startIdx + this.pageSize);
+                if (pageLinks.length === 0) {
                     tbody.innerHTML = '<div style="padding: 40px; text-align: center; color: var(--text-secondary);">暂无数据</div>';
+                    this.renderPagination(totalPages);
                     return;
                 }
-
-                tbody.innerHTML = filteredLinks.map(link => \`
-                    <div class="link-row">
-                        <div>
-                            <strong>\${this.escapeHtml(link.name)}</strong><br>
-                            <a href="\${this.escapeHtml(link.link)}" target="_blank" style="color: var(--primary-color); font-size: 0.9rem;">\${this.escapeHtml(link.link)}</a>
-                        </div>
-                        <div style="font-size: 0.9rem; color: var(--text-secondary);">
-                            \${link.descr ? this.escapeHtml(link.descr) : '无描述'}
-                        </div>
-                        <div style="font-size: 0.9rem;">
-                            \${link.submittedBy ? link.submittedBy.login : '未知'}
-                        </div>
-                        <div>
-                            <span class="status-badge status-\${link.status}">\${this.getStatusText(link.status)}</span>
-                        </div>
-                        <div class="action-buttons">
-                            \${link.status === 'pending' ? \`
-                                <button class="btn btn-small btn-approve" onclick="adminApp.manageLink('\${link.id}', 'approve')">批准</button>
-                                <button class="btn btn-small btn-reject" onclick="adminApp.manageLink('\${link.id}', 'reject')">拒绝</button>
-                            \` : ''}
-                            <button class="btn btn-small btn-delete" onclick="adminApp.manageLink('\${link.id}', 'delete')">删除</button>
-                        </div>
-                    </div>
-                \`).join('');
+                tbody.innerHTML = pageLinks.map(function(link) {
+                    return '<div class="link-row">' +
+                        '<div style="display: flex; align-items: center; gap: 10px;">' +
+                            '<img src="' + (link.avatar || '') + '" alt="头像" style="width:32px;height:32px;border-radius:50%;object-fit:cover;background:#eee;">' +
+                            '<div>' +
+                                '<a href="' + link.link + '" target="_blank"><strong>' + link.name + '</strong></a>' +
+                            '</div>' +
+                        '</div>' +
+                        '<div style="font-size: 0.9rem; color: var(--text-secondary);">' +
+                            (link.descr ? link.descr : '无描述') +
+                        '</div>' +
+                        '<div style="font-size: 0.9rem;">' +
+                            (link.submittedBy ? link.submittedBy.login : '未知') +
+                        '</div>' +
+                        '<div>' +
+                            '<span class="status-badge status-' + link.status + '">' + (link.status === 'pending' ? '待审核' : (link.status === 'approved' ? '已批准' : '已拒绝')) + '</span>' +
+                        '</div>' +
+                        '<div class="action-buttons">' +
+                            (link.status === 'pending' ?
+                                '<button class="btn btn-small btn-approve" onclick="adminApp.manageLink(\'' + link.id + '\', \'approve\')">批准</button>' +
+                                '<button class="btn btn-small btn-reject" onclick="adminApp.manageLink(\'' + link.id + '\', \'reject\')">拒绝</button>'
+                            : '') +
+                            '<button class="btn btn-small btn-delete" onclick="adminApp.manageLink(\'' + link.id + '\', \'delete\')">删除</button>' +
+                        '</div>' +
+                    '</div>';
+                }).join('');
+                this.renderPagination(totalPages);
             }
-
+            renderPagination(totalPages) {
+                const tbody = document.getElementById('links-table-body');
+                var paginationHtml = '';
+                if (totalPages > 1) {
+                    paginationHtml += '<div class="pagination" style="text-align:center;padding:20px 0;">';
+                    paginationHtml += '<button class="btn btn-small" ' + (this.currentPage === 1 ? 'disabled' : '') + ' onclick="adminApp.gotoPage(' + (this.currentPage - 1) + ')">上一页</button>';
+                    for (var i = 1; i <= totalPages; i++) {
+                        paginationHtml += '<button class="btn btn-small' + (i === this.currentPage ? ' btn-primary' : '') + '" onclick="adminApp.gotoPage(' + i + ')">' + i + '</button>';
+                    }
+                    paginationHtml += '<button class="btn btn-small" ' + (this.currentPage === totalPages ? 'disabled' : '') + ' onclick="adminApp.gotoPage(' + (this.currentPage + 1) + ')">下一页</button>';
+                    paginationHtml += '</div>';
+                }
+                tbody.innerHTML += paginationHtml;
+            }
+            gotoPage(page) {
+                this.currentPage = page;
+                this.renderLinks(document.getElementById('status-filter').value);
+            }
             async manageLink(linkId, action) {
                 const reason = action === 'reject' ? prompt('请输入拒绝原因（可选）：') : '';
                 

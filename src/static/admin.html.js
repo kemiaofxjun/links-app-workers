@@ -93,6 +93,8 @@ export default `<!DOCTYPE html>
             border-radius: var(--border-radius);
             background: var(--card-background);
             color: var(--text-primary);
+            padding: 12px 24px;
+            font-size: 1rem;
         }
         
         .admin-table {
@@ -128,7 +130,7 @@ export default `<!DOCTYPE html>
         }
         
         .status-badge {
-            padding: 4px 8px;
+            padding: 10px 20px;
             border-radius: 12px;
             font-size: 0.75rem;
             font-weight: 500;
@@ -157,8 +159,8 @@ export default `<!DOCTYPE html>
         
         .btn-small {
             padding: 4px 8px;
-            font-size: 0.75rem;
-            border-radius: 4px;
+            padding: 10px 20px;
+            font-size: 1rem;
         }
         
         .btn-approve {
@@ -516,6 +518,8 @@ export default `<!DOCTYPE html>
             logout() {
                 this.clearAuth();
                 this.showLoginSection();
+                // 重定向到首页
+                window.location.href = '/';
             }
 
             clearAuth() {
@@ -740,6 +744,7 @@ export default `<!DOCTYPE html>
     </script>
 </body>
 </html>`;
+
 
 
 

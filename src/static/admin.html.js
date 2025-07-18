@@ -629,14 +629,22 @@ export default `<!DOCTYPE html>
                         '</div>' +
                         '<div class="action-buttons">' +
                             (link.status === 'pending'
-                                ? '<button class="btn btn-small btn-approve" onclick="adminApp.manageLink(\'' + link.id + '\', \'approve\')">批准</button>' +
-                                  '<button class="btn btn-small btn-reject" onclick="adminApp.manageLink(\'' + link.id + '\', \'reject\')">拒绝</button>'
+                                ? '<button class="btn btn-small btn-approve" data-id="' + link.id + '" data-action="approve">批准</button>' +
+                                  '<button class="btn btn-small btn-reject" data-id="' + link.id + '" data-action="reject">拒绝</button>'
                                 : '') +
-                            '<button class="btn btn-small btn-delete" onclick="adminApp.manageLink(\'' + link.id + '\', \'delete\')">删除</button>' +
+                            '<button class="btn btn-small btn-delete" data-id="' + link.id + '" data-action="delete">删除</button>' +
                         '</div>' +
                     '</div>';
                 }).join('');
                 this.renderPagination(totalPages);
+                // 事件绑定
+                tbody.querySelectorAll('.action-buttons button').forEach(btn => {
+                    btn.onclick = () => {
+                        const id = btn.getAttribute('data-id');
+                        const action = btn.getAttribute('data-action');
+                        this.manageLink(id, action);
+                    };
+                });
             }
             renderPagination(totalPages) {
                 const tbody = document.getElementById('links-table-body');

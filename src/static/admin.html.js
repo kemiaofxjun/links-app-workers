@@ -631,10 +631,10 @@ export default `<!DOCTYPE html>
                             '<span class="status-badge status-' + link.status + '">' + (link.status === 'pending' ? '待审核' : (link.status === 'approved' ? '已批准' : '已拒绝')) + '</span>' +
                         '</div>' +
                         '<div class="action-buttons">' +
-                            (link.status === 'pending' ?
-                                '<button class="btn btn-small btn-approve" onclick="adminApp.manageLink(\'' + link.id + '\', \'approve\')">批准</button>' +
-                                '<button class="btn btn-small btn-reject" onclick="adminApp.manageLink(\'' + link.id + '\', \'reject\')">拒绝</button>'
-                            : '') +
+                            (link.status === 'pending'
+                                ? '<button class="btn btn-small btn-approve" onclick="adminApp.manageLink(\'' + link.id + '\', \'approve\')">批准</button>' +
+                                  '<button class="btn btn-small btn-reject" onclick="adminApp.manageLink(\'' + link.id + '\', \'reject\')">拒绝</button>'
+                                : '') +
                             '<button class="btn btn-small btn-delete" onclick="adminApp.manageLink(\'' + link.id + '\', \'delete\')">删除</button>' +
                         '</div>' +
                     '</div>';

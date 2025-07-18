@@ -106,7 +106,7 @@ export default `<!DOCTYPE html>
         }
         
         .table-header {
-            background: #f8fafc;
+            background: var(--card-background);
             padding: 15px;
             font-weight: 600;
             border-bottom: 1px solid var(--border-color);
@@ -124,10 +124,7 @@ export default `<!DOCTYPE html>
         .link-row:last-child {
             border-bottom: none;
         }
-        
-        .link-row:hover {
-            background: #f8fafc;
-        }
+
         
         .status-badge {
             padding: 10px 20px;

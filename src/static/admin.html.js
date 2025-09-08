@@ -345,7 +345,7 @@ export default `<!DOCTYPE html>
         <div class="admin-header">
             <h1>🔗 友链管理后台</h1>
             <div class="user-info" id="admin-user-info" style="display: none;">
-                <img id="admin-avatar" src="" alt="管理员头像" class="user-avatar">
+                <img id="admin-avatar" src="https://img.314926.xyz/images/2025/08/13/no-background-kemiaofxjun.webp" alt="管理员头像" class="user-avatar">
                 <div class="user-details">
                     <span id="admin-name" class="user-name"></span>
                     <span id="admin-login" class="user-login"></span>

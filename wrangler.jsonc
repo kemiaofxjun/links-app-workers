@@ -1,5 +1,5 @@
 {
-  "name": "links-app-workers",
+  "name": "link-app",
   "main": "src/index.js",
   "compatibility_date": "2025-07-18"
 }
